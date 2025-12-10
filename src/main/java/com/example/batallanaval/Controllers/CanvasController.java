@@ -8,9 +8,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 
-public class StartMenuController {
+public class CanvasController {
 
-    private static final int cellSize =70;
+    private static final int cellSize =40;
 
     @FXML
     private AnchorPane AnchorPane;
