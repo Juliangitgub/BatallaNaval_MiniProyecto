@@ -1,0 +1,4 @@
+--- BATALLA NAVAL REPORTE ---
+Nickname: Juan
+Barcos Hundidos: 10
+Estado Partida: Terminada
