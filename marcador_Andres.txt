@@ -1,0 +1,4 @@
+--- BATALLA NAVAL REPORTE ---
+Nickname: Andres
+Barcos Hundidos: 0
+Estado Partida: Terminada

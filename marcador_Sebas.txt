@@ -1,0 +1,4 @@
+--- BATALLA NAVAL REPORTE ---
+Nickname: Sebas
+Barcos Enemigos Hundidos: 10
+Estado Partida: Terminada
