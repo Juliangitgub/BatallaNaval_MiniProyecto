@@ -37,7 +37,7 @@ public class CanvasController {
     private ShipPlacementManager placementManager;
     private BattleManager battleManager;
 
-    // --- CORRECCIÓN AQUÍ: Usamos GamePersistence de Models ---
+    //GamePersistence de Models ---
     private GamePersistence persistence;
 
     private ModalFactory modalFactory;
@@ -65,7 +65,7 @@ public class CanvasController {
     private void gestionarInicio() {
         String archivo = "batalla_naval_" + nickname + ".ser";
 
-        // CORRECCIÓN: Método correcto de GamePersistence
+        // Método correcto de GamePersistence
         if (persistence.existePartida(nickname)) {
             GameDTO estado = persistence.cargarJuego(archivo);
             if (estado != null && !estado.isJuegoTerminado()) {
