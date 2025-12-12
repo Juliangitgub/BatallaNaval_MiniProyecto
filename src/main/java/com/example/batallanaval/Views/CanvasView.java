@@ -7,9 +7,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class StartMenuView extends Stage {
+public class CanvasView extends Stage {
 
-    public StartMenuView() throws IOException {
+    public CanvasView() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
                 getClass().getResource("/com/example/batallanaval/Canvas.fxml")
         );
@@ -21,16 +21,16 @@ public class StartMenuView extends Stage {
         this.show();
     }
 
-    public static StartMenuView getInstance() throws IOException {
+    public static CanvasView getInstance() throws IOException {
         if (StartMenuViewHolder.INSTANCE == null){
-            return StartMenuViewHolder.INSTANCE = new StartMenuView();
+            return StartMenuViewHolder.INSTANCE = new CanvasView();
         }else {
             return StartMenuViewHolder.INSTANCE;
         }
     }
 
     private static class StartMenuViewHolder {
-        private static StartMenuView INSTANCE;
+        private static CanvasView INSTANCE;
     }
 }
 
