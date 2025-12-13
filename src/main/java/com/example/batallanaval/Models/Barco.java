@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Representa un barco individual en el juego de Batalla Naval.
  * Almacena su longitud, tipo, orientación y gestiona su estado de daño y hundimiento.
  */
-public class Barco implements Serializable {
+public class Barco extends AdapterBarco implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /** Longitud del barco, definida por el número de casillas que ocupa. */
