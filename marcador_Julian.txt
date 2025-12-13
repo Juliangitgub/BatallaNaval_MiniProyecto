@@ -1,4 +1,4 @@
 --- BATALLA NAVAL REPORTE ---
 Nickname: Julian
-Barcos Enemigos Hundidos: 10
-Estado Partida: Terminada
+Barcos Enemigos Hundidos: 4
+Estado Partida: En Curso
