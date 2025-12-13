@@ -4,20 +4,29 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
+/**
+ * Clase encargada de dibujar todos los elementos visuales del juego
+ * Batalla Naval (barcos, marcas de impacto, marcas de agua, etc.) utilizando JavaFX Canvas.
+ */
 public class GamePainter {
 
     private static final int CELL_SIZE = 40;
 
     /* =====================================================
-     *  MARCAS DE JUEGO (AGUA / HIT / HUNDIDO / EXPLOSION)
+     * MARCAS DE JUEGO (AGUA / HIT / HUNDIDO / EXPLOSION)
      * ===================================================== */
 
+    /**
+     * Dibuja la marca visual que indica un disparo fallido (agua).
+     *
+     * @return Un objeto {@code Canvas} que contiene la representación gráfica de un disparo en el agua.
+     */
     public Canvas dibujarAgua() {
         Canvas c = new Canvas(CELL_SIZE, CELL_SIZE);
         GraphicsContext g = c.getGraphicsContext2D();
 
         // Fondo azul claro para representar agua
-        g.setFill(Color.rgb(173, 216, 230, 0.3)); // Azul agua semi-transparente
+        g.setFill(Color.rgb(173, 216, 230, 0.3)); // Azul agua semitransparente
         g.fillRect(0, 0, CELL_SIZE, CELL_SIZE);
 
         // Dibujar una X grande que ocupe la mayor parte de la celda
@@ -38,6 +47,11 @@ public class GamePainter {
         return c;
     }
 
+    /**
+     * Dibuja la marca visual que indica un impacto (hit) en un barco.
+     *
+     * @return Un objeto {@code Canvas} que contiene la representación gráfica de un impacto.
+     */
     public Canvas dibujarImpacto() {
         Canvas c = new Canvas(CELL_SIZE, CELL_SIZE);
         GraphicsContext g = c.getGraphicsContext2D();
@@ -60,6 +74,11 @@ public class GamePainter {
         return c;
     }
 
+    /**
+     * Dibuja una animación o marca visual para una explosión.
+     *
+     * @return Un objeto {@code Canvas} que contiene la representación gráfica de una explosión.
+     */
     public Canvas dibujarExplosion() {
         Canvas c = new Canvas(CELL_SIZE, CELL_SIZE);
         GraphicsContext g = c.getGraphicsContext2D();
@@ -84,28 +103,35 @@ public class GamePainter {
     }
 
     /* =====================================================
-     *  BARCOS
+     * BARCOS
      * ===================================================== */
 
+    /**
+     * Dibuja la representación completa de un barco en el tablero, incluyendo su forma,
+     * sombra y detalles específicos de su tipo.
+     *
+     * @param tipo El tipo de barco (ej. "portaaviones", "submarino", etc.) para aplicar detalles.
+     * @param longitud La longitud del barco en número de celdas.
+     * @param horizontal {@code true} si el barco está orientado horizontalmente, {@code false} si es vertical.
+     * @return Un objeto {@code Canvas} que contiene el dibujo del barco completo.
+     */
     public Canvas dibujarBarco(String tipo, int longitud, boolean horizontal) {
         int w = horizontal ? longitud * CELL_SIZE : CELL_SIZE;
         int h = horizontal ? CELL_SIZE : longitud * CELL_SIZE;
 
-        Canvas canvas = new Canvas(w + 3, h + 3); // Aumentar tamaño para la sombra
+        Canvas canvas = new Canvas(w + 3, h + 3); // Aumentar la sombra
         GraphicsContext g = canvas.getGraphicsContext2D();
 
         g.setFill(Color.TRANSPARENT);
         g.fillRect(0, 0, w + 3, h + 3);
 
-        // 1. Dibuja la Sombra (desplazada 3px hacia abajo y derecha)
-        g.setFill(Color.rgb(0, 0, 0, 0.4)); // Negro con 40% de opacidad
+        g.setFill(Color.rgb(0, 0, 0, 0.4));
         g.fillRoundRect(3, 3, w, h, 14, 14);
 
-        // 2. Dibuja el cuerpo principal del barco (desplazado 0px)
+
         g.setFill(Color.LIGHTGRAY);
         g.fillRoundRect(0, 0, w, h, 14, 14);
 
-        // 3. Contorno y líneas divisorias
         g.setStroke(Color.BLACK);
         g.setLineWidth(2);
         g.strokeRoundRect(1, 1, w - 2, h - 2, 14, 14);
@@ -131,9 +157,17 @@ public class GamePainter {
     }
 
     /* =====================================================
-     *  MÉTODOS PRIVADOS DE APOYO
+     * MÉTODOS PRIVADOS DE APOYO
      * ===================================================== */
 
+    /**
+     * Dibuja los detalles específicos (ventanas, torre, cañón, antena) según el tipo de barco.
+     *
+     * @param g El contexto gráfico del Canvas donde se dibujará.
+     * @param tipo El tipo de barco.
+     * @param longitud La longitud del barco.
+     * @param horizontal {@code true} si el barco es horizontal.
+     */
     private void dibujarDetallesPorTipo(GraphicsContext g, String tipo, int longitud, boolean horizontal) {
         switch (tipo.toLowerCase()) {
             case "portaaviones":
@@ -150,6 +184,14 @@ public class GamePainter {
                 break;
         }
     }
+
+    /**
+     * Dibuja las ventanas o luces del Portaaviones con un efecto de resplandor.
+     *
+     * @param g El contexto gráfico del Canvas.
+     * @param longitud La longitud del barco.
+     * @param horizontal {@code true} si el barco es horizontal.
+     */
     private void dibujarVentanas(GraphicsContext g, int longitud, boolean horizontal) {
         int spacing = (longitud * CELL_SIZE) / (4);
 
@@ -168,6 +210,12 @@ public class GamePainter {
         }
     }
 
+    /**
+     * Dibuja la torre de mando del Submarino.
+     *
+     * @param g El contexto gráfico del Canvas.
+     * @param horizontal {@code true} si el barco es horizontal.
+     */
     private void dibujarTorreSubmarino(GraphicsContext g, boolean horizontal) {
         g.setFill(Color.DARKGRAY.darker().darker());
 
@@ -180,6 +228,12 @@ public class GamePainter {
         }
     }
 
+    /**
+     * Dibuja el cañón principal del Destructor.
+     *
+     * @param g El contexto gráfico del Canvas.
+     * @param horizontal {@code true} si el barco es horizontal.
+     */
     private void dibujarCanon(GraphicsContext g, boolean horizontal) {
         g.setFill(Color.BLACK);
 
@@ -196,6 +250,12 @@ public class GamePainter {
         }
     }
 
+    /**
+     * Dibuja la antena o mástil de la Fragata.
+     *
+     * @param g El contexto gráfico del Canvas.
+     * @param horizontal {@code true} si el barco es horizontal.
+     */
     private void dibujarAntena(GraphicsContext g, boolean horizontal) {
         g.setStroke(Color.BLACK);
         g.setLineWidth(2);
@@ -205,6 +265,12 @@ public class GamePainter {
         else
             g.strokeLine(4, CELL_SIZE / 2.0, 20, CELL_SIZE / 2.0);
     }
+
+    /**
+     * Alias del método {@code dibujarImpacto()}.
+     *
+     * @return El resultado de {@code dibujarImpacto()}.
+     */
     public Canvas dibujarTocado() {
         return dibujarImpacto();
     }

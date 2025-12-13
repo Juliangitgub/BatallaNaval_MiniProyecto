@@ -13,18 +13,44 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import java.util.function.Consumer;
 
+/**
+ * Clase factoría encargada de crear y mostrar diferentes tipos de ventanas modales
+ * (alertas, diálogos de confirmación, formularios de entrada, fin de juego)
+ * dentro de un {@code StackPane} raíz de JavaFX.
+ */
 public class ModalFactory {
 
     private final StackPane rootPane;
 
+    /**
+     * Constructor para la factoría de modales.
+     *
+     * @param rootPane El {@code StackPane} principal de la escena donde se añadirán los modales.
+     * Este pane debe ser el más alto en la jerarquía de la escena.
+     */
     public ModalFactory(StackPane rootPane) {
         this.rootPane = rootPane;
     }
 
+    /**
+     * Muestra una ventana modal genérica de alerta con un solo botón de acción.
+     *
+     * @param titulo El título de la alerta.
+     * @param mensaje El cuerpo del mensaje de la alerta.
+     */
     public void mostrarAlerta(String titulo, String mensaje) {
         mostrarModalGenerico(titulo, mensaje, "Aceptar", () -> {});
     }
 
+    /**
+     * Muestra una ventana modal específica para el fin del juego (victoria o derrota).
+     * El color del borde y del título se ajusta automáticamente según el título.
+     *
+     * @param titulo El título del modal (debe contener "VICTORIA" o similar para el color verde).
+     * @param mensaje El mensaje de fin de juego.
+     * @param onReiniciar La acción a ejecutar cuando se presiona el botón "JUGAR DE NUEVO".
+     * @param onSalir La acción a ejecutar cuando se presiona el botón "SALIR".
+     */
     public void mostrarModalFinJuego(String titulo, String mensaje, Runnable onReiniciar, Runnable onSalir) {
         StackPane modalRoot = crearFondoModal();
         VBox ventana = crearVentanaBase(500, 350);
@@ -47,6 +73,12 @@ public class ModalFactory {
         mostrarEnRoot(modalRoot, ventana);
     }
 
+    /**
+     * Muestra un modal con un campo de texto para que el usuario ingrese un nickname.
+     *
+     * @param onAceptar La acción ({@code Consumer<String>}) a ejecutar cuando el usuario acepta,
+     * recibiendo el nickname ingresado como argumento.
+     */
     public void mostrarInputNickname(Consumer<String> onAceptar) {
         StackPane modalRoot = crearFondoModal();
         VBox ventana = crearVentanaBase(400, 300);
@@ -65,6 +97,16 @@ public class ModalFactory {
         mostrarEnRoot(modalRoot, ventana);
     }
 
+    /**
+     * Muestra un modal de confirmación con dos opciones ("Sí" y "No").
+     *
+     * @param titulo El título de la confirmación.
+     * @param mensaje El mensaje que requiere confirmación.
+     * @param txtSi El texto del botón de confirmación positiva.
+     * @param txtNo El texto del botón de confirmación negativa.
+     * @param onSi La acción a ejecutar al presionar el botón de confirmación positiva.
+     * @param onNo La acción a ejecutar al presionar el botón de confirmación negativa.
+     */
     public void mostrarConfirmacion(String titulo, String mensaje, String txtSi, String txtNo, Runnable onSi, Runnable onNo) {
         StackPane modalRoot = crearFondoModal();
         VBox ventana = crearVentanaBase(400, 300);
@@ -84,6 +126,14 @@ public class ModalFactory {
     }
 
     // --- Helpers Privados ---
+    /**
+     * Método privado que encapsula la lógica para mostrar un modal genérico.
+     *
+     * @param titulo El título del modal.
+     * @param msg El mensaje del modal.
+     * @param btnTxt El texto del botón de cierre.
+     * @param onClose La acción a ejecutar al cerrar el modal.
+     */
     private void mostrarModalGenerico(String titulo, String msg, String btnTxt, Runnable onClose) {
         StackPane root = crearFondoModal();
         VBox box = crearVentanaBase(400, 300);
@@ -93,12 +143,24 @@ public class ModalFactory {
         mostrarEnRoot(root, box);
     }
 
+    /**
+     * Crea el panel de fondo oscuro y semitransparente para simular el efecto de 'glass pane'.
+     *
+     * @return Un {@code StackPane} que cubre toda la escena.
+     */
     private StackPane crearFondoModal() {
         StackPane glass = new StackPane();
         glass.setStyle("-fx-background-color: rgba(0, 0, 0, 0.85);");
         return glass;
     }
 
+    /**
+     * Crea la caja contenedora vertical (VBox) que sirve como la ventana central del modal.
+     *
+     * @param w El ancho máximo de la ventana.
+     * @param h El alto máximo de la ventana.
+     * @return Un {@code VBox} con estilo de ventana base.
+     */
     private VBox crearVentanaBase(int w, int h) {
         VBox v = new VBox(20);
         v.setAlignment(Pos.CENTER);
@@ -107,6 +169,14 @@ public class ModalFactory {
         return v;
     }
 
+    /**
+     * Crea un {@code Label} estilizado con fuente Arial negrita, tamaño y color especificados.
+     *
+     * @param txt El texto del Label.
+     * @param size El tamaño de la fuente.
+     * @param color El color del texto (puede ser un nombre o código HEX).
+     * @return El {@code Label} estilizado.
+     */
     private Label crearLabel(String txt, int size, String color) {
         Label l = new Label(txt);
         l.setTextFill(Color.web(color));
@@ -116,12 +186,32 @@ public class ModalFactory {
         return l;
     }
 
+    /**
+     * Crea un {@code Button} estilizado con fondo transparente, borde y color de texto.
+     *
+     * @param txt El texto del botón.
+     * @param color El color del texto y del borde (código HEX o nombre).
+     * @return El {@code Button} estilizado.
+     */
     private Button crearBoton(String txt, String color) {
         Button b = new Button(txt);
         b.setStyle("-fx-background-color: transparent; -fx-text-fill: " + color + "; -fx-border-color: " + color + "; -fx-font-weight: bold; -fx-cursor: hand; -fx-pref-width: 180;");
         return b;
     }
 
+    /**
+     * Remueve el modal del {@code StackPane} raíz, cerrando la ventana modal.
+     *
+     * @param modal El {@code StackPane} que contiene el modal a cerrar.
+     */
     private void cerrarModal(StackPane modal) { rootPane.getChildren().remove(modal); }
+
+    /**
+     * Añade el contenido (la ventana base) al fondo del modal y luego añade el modal
+     * completo al {@code StackPane} raíz, haciéndolo visible.
+     *
+     * @param modal El {@code StackPane} de fondo (glass pane).
+     * @param content La caja {@code VBox} que contiene el contenido visible de la ventana.
+     */
     private void mostrarEnRoot(StackPane modal, VBox content) { modal.getChildren().add(content); rootPane.getChildren().add(modal); }
 }
