@@ -133,7 +133,7 @@ public class BattleManager {
         Canvas marca = null;
         if(resultado==0) marca = painter.dibujarAgua();
         else if(resultado==1) marca = painter.dibujarTocado();
-        else marca = painter.dibujarHundido();
+        else marca = painter.dibujarExplosion();
 
         if (marca != null) {
             marca.setMouseTransparent(true);

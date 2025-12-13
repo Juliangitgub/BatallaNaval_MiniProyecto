@@ -206,7 +206,7 @@ public class CanvasController {
                 }
                 if (c.fueDisparada()) {
                     int res = c.tieneBarco() ? (c.getBarco().estaHundido()?2:1) : 0;
-                    Canvas m = (res==0) ? painter.dibujarAgua() : (res==1 ? painter.dibujarTocado() : painter.dibujarHundido());
+                    Canvas m = (res==0) ? painter.dibujarAgua() : (res==1 ? painter.dibujarTocado() : painter.dibujarExplosion());
                     if(m!=null) { m.setMouseTransparent(true); grid.add(m, i, j); }
                 }
             }
